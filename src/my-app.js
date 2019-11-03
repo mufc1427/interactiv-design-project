@@ -27,7 +27,7 @@ import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-import * as d3 from 'd3' //d3 library
+//import * as d3 from 'd3' //d3 library
 import './my-icons.js';
 
 // Gesture events like tap and track generated from touch will not be
@@ -50,7 +50,7 @@ class MyApp extends PolymerElement {
         }
 
         app-drawer-layout:not([narrow]) [drawer-toggle] {
-          display: none;
+          display: block;
         }
 
         app-header {
@@ -90,10 +90,11 @@ class MyApp extends PolymerElement {
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
 
-      <app-drawer-layout fullbleed="" narrow="{{narrow}}">
+      <app-drawer-layout  fullbleed="" narrow="{{narrow}}">
         <!-- Drawer content -->
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
+          <hr>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
             <a name="view1" href="[[rootPath]]view1">View One</a>
             <a name="view2" href="[[rootPath]]view2">View Two</a>
@@ -106,7 +107,7 @@ class MyApp extends PolymerElement {
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
-              <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
+              <paper-icon-button icon="my-icons:menu" drawer-toggle="#drawer"></paper-icon-button>
               <div main-title="">My App</div>
             </app-toolbar>
           </app-header>
