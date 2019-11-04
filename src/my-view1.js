@@ -19,7 +19,8 @@ class MyView1 extends PolymerElement {
 
    STATES()
   {
-    var US_STATES = ["United States","Alabama", "Alaska",  "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware","District of Columbia",  "Florida", "Georgia",  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",  "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
+    var US_STATES = ["United States","Alabama", "Alaska",  "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware","District of Columbia",  "Florida", "Georgia",  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", 
+    "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",  "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
   
    return US_STATES;
   }
@@ -166,11 +167,10 @@ class MyView1 extends PolymerElement {
         
 
 				
-			
 
 
     }
-	  
+return states_object;
   }
 
 
@@ -292,9 +292,24 @@ class MyView1 extends PolymerElement {
 
     console.log(states_object);*/
     
+
     
     var legendText = ["Heart Disease", "States Lived", "States Visited", "Nada"];
-    var data = this.calculateDeathsByYear(data, 1999);
+    var filtred_data = this.calculateDeathsByYear(data, 2017);
+
+
+   var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(179, 7, 7)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)"];
+   var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease","Diabetes","Influenza and pneumonia","Suicide","Kidney disease", "CLRD", "Stroke"];
+
+
+
+var color_object = {};
+
+
+for (let i = 0; i < causes_names.length; i++)
+{
+  color_object[causes_names[i]] =  causes_colors[i];
+}
 
   var width = 960;
   var height = 500;
@@ -309,9 +324,10 @@ class MyView1 extends PolymerElement {
   var path = d3.geoPath() // path generator that will convert GeoJSON to SVG paths
     .projection(projection);
 
+    
 
   // Define linear scale for output
-  var color = d3.scaleLinear()
+  var color = d3.scaleLinear() //["rgb(217,91,67)"]"rgb(222, 33, 175)"
     .range(["rgb(217,91,67)"]);
 
 
@@ -325,8 +341,32 @@ class MyView1 extends PolymerElement {
   //create map wwith state data/
   d3.json("../data/us-states.json").then(function (json) {
 	  
-	  //add data 
-	  
+    //add data to goejson
+
+    
+    let state_keys = Object.keys(filtred_data);
+    //let parsed_json = JSON.parse(json);
+    for(let i = 0; i < state_keys.length;i++)
+    {
+           var current_prop = json.features[i].properties.NAME;
+
+           if(current_prop == "Wisconsin")
+           {
+             json.features[i].cause = filtred_data["Wisconsin"].cause;
+             json.features[i].deaths = filtred_data["Wisconsin"].deaths_count;
+
+           }
+           else if(current_prop == "Puerto Rico")
+           {
+             continue;
+           }
+           else{
+          json.features[i].cause = filtred_data[current_prop].cause;
+           json.features[i].deaths = filtred_data[current_prop].deaths_count;
+           }
+
+        
+    }
 	  
 	  
     //color.domain([0]); 
@@ -340,15 +380,14 @@ class MyView1 extends PolymerElement {
       .style("fill", function (d) {
 
         // Get data value
-        var value = d.properties.visited;
+        var value = d.cause;
 
-        if (value) {
-          //If value exists…
-          return color(value);
-        } else {
-          //If value is undefined…
-          return "rgb(213,222,217)";
-        }
+      
+          //If value exists
+          
+             return color_object[value];
+          
+        
       }); // setting the range of the input data
   });
 }
