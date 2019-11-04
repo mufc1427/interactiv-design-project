@@ -19,7 +19,7 @@ class MyView1 extends PolymerElement {
 
    STATES()
   {
-    var US_STATES = ["Alabama", "Alaska",  "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",  "Florida", "Georgia",  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",  "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New_Hampshire", "New_Jersey", "New_Mexico", "New_York", "North_Carolina", "North_Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",  "Rhode_Island", "South_Carolina", "South_Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West_Virginia", "Wisconsin", "Wyoming"];
+    var US_STATES = ["United States","Alabama", "Alaska",  "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware","District of Columbia",  "Florida", "Georgia",  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota",  "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
   
    return US_STATES;
   }
@@ -97,7 +97,7 @@ class MyView1 extends PolymerElement {
         Cause_Name: d["Cause Name"],
         Deaths: +d.Deaths,
         Adjusted_Death_Rate: +d["Age-adjusted Death Rate"],
-        year: d.Year
+        year: +d.Year
 
       };
     }).then(function (data) {
@@ -109,6 +109,70 @@ class MyView1 extends PolymerElement {
     return data; //return the actual data to be map.
 
   }
+  
+  
+  
+  calculateDeathsByYear(data, year)
+  {
+	 var us_states = this.STATES();
+    var states_object ={};
+
+    //add all the states to the object.
+    for(let i= 0; i < us_states.length; i++)
+    {
+      states_object[us_states[i]] = {
+        cause: "",
+        deaths_count:0
+      };
+       
+    }
+
+    console.log(states_object);
+
+    let previous_key = "";
+     
+  
+
+    //check for each year 
+    var start = 0;
+    var end = 50;
+    var indexer = 0;
+    var finished = false;
+    var data_set_size = data.length; 
+    for(let i= 0 ;i < data.length; i++)
+    {
+      
+      
+      
+		  
+			    if(data[i].year < year)
+			    {
+					break;
+				}
+				
+				let state_name_test = data[i].State;
+				
+				let my_cause = data[i].Cause_Name;
+				   let my_deaths = data[i].Deaths;
+		  
+				if ( states_object[data[i].State].deaths_count < data[i].Deaths && data[i].Cause_Name != "All causes" && data[i].State != "United States" && data[i].year == year )
+				{
+				   states_object[data[i].State].cause = data[i].Cause_Name;
+				   states_object[data[i].State].deaths_count = data[i].Deaths;
+				   
+				}
+				
+        
+        
+
+				
+			
+
+
+    }
+	  
+  }
+
 
 
   drawMap(data) {
@@ -116,7 +180,7 @@ class MyView1 extends PolymerElement {
     
 
 
-    var us_states = this.STATES();
+    /*var us_states = this.STATES();
     var states_object ={
 
     
@@ -166,7 +230,6 @@ class MyView1 extends PolymerElement {
 
 
 
-
     
     console.log(states_object);
 
@@ -184,32 +247,40 @@ class MyView1 extends PolymerElement {
 
       while(true)
       {
-        if (states_object[us_states[indexer]].deaths_count <= +temp_array[indexer].Deaths)
-        {
-           states_object[us_states[indexer]].cause = temp_array[indexer].Cause_Name;
-           states_object[us_states[indexer]].deaths_count = +temp_array[indexer].Deaths
-        }
+		  
+		  if(end < 1050)
+		  {
+		  
+				if (states_object[us_states[indexer]].deaths_count <= +temp_array[indexer].Deaths && temp_array[indexer].Cause_Name != "All causes" && temp_array[indexer].State != "United States" )
+				{
+				   states_object[us_states[indexer]].cause = temp_array[indexer].Cause_Name;
+				   states_object[us_states[indexer]].deaths_count = +temp_array[indexer].Deaths;
+				   
+				}
+				
         
         
 
-        if(indexer == 48)
-        {
-          if(end == data_set_size)
-          {
-            finished = true;
-          }
+				if(indexer == 48)
+				{
 
-          start = end;
-          end = end + 50;
-          indexer = 0;
-          break;
-        }
-        indexer++;
+				  start = end;
+				  end = end + 50;
+				  indexer = 0;
+				  break;
+				}
+				indexer++;
+				
+	      }
+	      else
+	      {
+			  finished = true;
+		  }
 
 
       }
 
-      if(finished)
+      if(end >= 1050)
       {
         break;
       }
@@ -219,7 +290,11 @@ class MyView1 extends PolymerElement {
 
     }
 
-    console.log(states_object);
+    console.log(states_object);*/
+    
+    
+    var legendText = ["Heart Disease", "States Lived", "States Visited", "Nada"];
+    var data = this.calculateDeathsByYear(data, 1999);
 
   var width = 960;
   var height = 500;
@@ -249,6 +324,11 @@ class MyView1 extends PolymerElement {
 
   //create map wwith state data/
   d3.json("../data/us-states.json").then(function (json) {
+	  
+	  //add data 
+	  
+	  
+	  
     //color.domain([0]); 
     svg.selectAll("path")
       .data(json.features)
