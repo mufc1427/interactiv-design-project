@@ -23,10 +23,13 @@ import '@polymer/app-layout/app-header-layout/app-header-layout.js';
 import '@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-route/app-location.js';
+//import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js'
+ import '@polymer/paper-slider/paper-slider.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
+
 //import * as d3 from 'd3' //d3 library
 import './my-icons.js';
 
@@ -107,7 +110,7 @@ class MyApp extends PolymerElement {
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
-              <paper-icon-button icon="my-icons:menu" drawer-toggle="#drawer"></paper-icon-button>
+              <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
               <div main-title="">My App</div>
             </app-toolbar>
           </app-header>
