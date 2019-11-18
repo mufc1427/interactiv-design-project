@@ -1,12 +1,4 @@
-/**
- * @license
- * Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
+
 
 import {
   PolymerElement,
@@ -52,6 +44,19 @@ class MyApp extends PolymerElement {
           display: block;
         }
 
+        .nav-link
+        {
+             color:white;
+        }
+
+    .center-spinner
+      {
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-top:300px;
+      }
+
         app-drawer-layout:not([narrow]) [drawer-toggle] {
           display: block;
         }
@@ -67,6 +72,13 @@ class MyApp extends PolymerElement {
 
         .drawer-list {
           margin: 0 20px;
+        }
+
+        #nav-bar-custom
+        {
+          display:none;
+          background-color:#474545;
+          color:white;
         }
 
         .drawer-list a {
@@ -95,25 +107,38 @@ class MyApp extends PolymerElement {
 
       <app-drawer-layout  fullbleed="" narrow="{{narrow}}">
         <!-- Drawer content -->
-        <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
+       <!-- <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
           <hr>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="view1" href="[[rootPath]]view1">View One</a>
-            <a name="view2" href="[[rootPath]]view2">View Two</a>
-            <a name="view3" href="[[rootPath]]view3">View Three</a>
+            <a name="view1" href="[[rootPath]]view1" class="nav-link">View One</a>
+            <a name="view2" href="[[rootPath]]view2" class="nav-link">View Two</a>
+            <a name="view3" href="[[rootPath]]view3" class="nav-link">View Three</a>
           </iron-selector>
-        </app-drawer>
+        </app-drawer>-->
 
         <!-- Main content -->
         <app-header-layout has-scrolling-region="">
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
-              <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
-              <div main-title="">My App</div>
+              <paper-icon-button icon="my-icons:menu" drawer-toggle="" on-click="_toggleMenu"></paper-icon-button>
+              <div main-title="">Isaac's Vizualization Tools</div>
+
             </app-toolbar>
           </app-header>
+
+          <nav id="nav-bar-custom">
+          
+           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+            <a name="view1" href="[[rootPath]]view1">National</a>
+            <hr>
+            <a name="view2" href="[[rootPath]]view2">By State</a>
+            <hr>
+            <a name="view3" href="[[rootPath]]view3">About</a>
+          </iron-selector>
+          
+          </nav>
 
           <iron-pages class"custom-bg" selected="[[page]]" attr-for-selected="name" role="main">
             <my-view1 name="view1"></my-view1>
@@ -144,6 +169,22 @@ class MyApp extends PolymerElement {
     ];
   }
 
+
+  _toggleMenu()
+  {
+
+
+    var navbar_elem = this.shadowRoot.querySelector("#nav-bar-custom");
+    if (navbar_elem.style.display == "none")
+    {
+      navbar_elem.style.display = "block";
+    }
+    else{
+      navbar_elem.style.display = "none";
+    }
+    
+  }
+
   _routePageChanged(page) {
     // Show the corresponding page according to the route.
     //
@@ -158,9 +199,9 @@ class MyApp extends PolymerElement {
     }
 
     // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
+    /*if (!this.$.drawer.persistent) {
       this.$.drawer.close();
-    }
+    }*/
   }
 
   _pageChanged(page) {

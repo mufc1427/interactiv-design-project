@@ -23,6 +23,82 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
       }
 
+
+       .main-paragragh p {
+    margin-top: 25px;
+    font-size: 15px;
+    text-align: center;
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+      .button-styles
+          {
+            height:40px;
+          }
+
+          .text-center
+          {
+             text-align: center;
+          }
+
+          .button-styles:hover
+          {
+            backgroud-color: blue;
+          }
+
+
+           div.tooltip {
+               position: fixed;
+               text - align: center;
+               width: 60 px;
+               height: 28 px;
+               padding: 2 px;
+               font: 12 px sans - serif;
+               background: #5e5f61;
+          border: 0 px;
+          color:white;
+          border-radius: 15 px;
+          pointer-events: auto;
+           border: 1 px solid black;
+          
+        }
+      
+
       .circle {
         display: inline-block;
         width: 64px;
