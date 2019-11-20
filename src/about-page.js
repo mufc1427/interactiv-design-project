@@ -142,7 +142,7 @@ class About extends PolymerElement {
         Developing this application took between 20-30 hours. The development aspect that took the most time was definitely creating the vizualizations using D3, as this was my first time using this library. Another aspect that took some time was 
         getting familiar with the Polymer library, even though that is similar to Angular which is something that I have experiend with, there were still a few things such as event handling that are different 
         between the two libraries. I conclusion, this assigment was a good hands-on experience with new technologies, and also a good opportunity 
-        to learn more about that data visualization techniques. 
+        to learn more about data visualization techniques. 
           </p>
         
         
