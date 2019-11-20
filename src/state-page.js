@@ -9,7 +9,7 @@ import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-button/paper-button.js';
 //import '../tools.js/index.js'
 
-class MyView2 extends PolymerElement {
+class StateTools extends PolymerElement {
   static get template() {
     return html `
       <style include="shared-styles">
@@ -31,6 +31,15 @@ class MyView2 extends PolymerElement {
              fill:none;
              stroke: #2c6cc7;
              stroke-width:3;
+        }
+
+        /*tooltip styling */
+        div.tooltip
+        {
+          width:80px;
+          height:20px !important;
+          text-align:center;
+
         }
 
         .overlay {
@@ -68,7 +77,7 @@ class MyView2 extends PolymerElement {
           
       </style>
 
-      <div class="card">
+      <div class="card main-paragragh">
         <h2>Number of deaths by caused on a state (1999-2017) </h2>
         <hr>
 
@@ -118,7 +127,7 @@ class MyView2 extends PolymerElement {
 
 <hr>
 
-        <section class="main-paragraph">
+        <section>
         <P>
         This tool demostrate the number of deaths in two states by a specific cause from the period 1999-2017
 
@@ -343,7 +352,7 @@ cause = "Unintentional injuries"
     this.shadowRoot.querySelector("#chart2-title").innerText = "Number of deaths caused by " + cause + " in " + first_state + " and " + second_state + " (1999-2017)"
 
 
-    var fixed_data_first_state = this._getProperty("helper").parseYearsWithDeathCount(calculate_num_of_deaths_first_state);
+    var fixed_data_first_state = this._getProperty("helper").parseYearsWithDeathCount(calculate_num_of_deaths_first_state); 
     var fixed_data_second_state = this._getProperty("helper").parseYearsWithDeathCount(calculate_num_of_deaths_second_state);
     d3.select(this.shadowRoot.querySelector("#lines-chart")).remove();
 
@@ -450,7 +459,21 @@ cause = "Unintentional injuries"
       .attr("height", height + margin.top + margin.bottom)
       .attr("id", "lines-chart")
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top/2 + ")");
+
+
+      //add labels
+    svg.append("text").attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
+      .attr("transform", "translate(" + -60 +  ")rotate(-90)") // text is drawn off the screen top left, move down and out and rotate
+      .text("Deaths").attr("dy", "0.2em").attr("x", 0 - height/2);
+
+
+
+
+    svg.append("text")
+      .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
+      .attr("transform", "translate(" + (width / 2) + "," + (height + (120 / 3)) + ")").attr("dy", "0.2em") // centre below axis
+      .text("Year");
 
 
     var color_object = this._getProperty("helper").getColorObject();
@@ -576,7 +599,26 @@ cause = "Unintentional injuries"
       .attr("cy", function (d) {
         return y_scale(d.deaths_count)
       })
-      .attr("r", 5);
+      .attr("r", 5).on("mouseover", function (d) {
+
+
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9)
+          .style("border", "1px solid black");
+        tooltip.text(d.deaths_count)
+          .attr('x', 0)
+          .attr('dy', 5)
+          .text(d.deaths_count + " deaths")
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+      }).on("mouseout", function (d) {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0)
+          .style("border", "5px soild black")
+          .style("border-radius", "5px");
+      });
 
     if (first_state_name != second_state_name) {
       svg.selectAll(".dot-two")
@@ -589,7 +631,29 @@ cause = "Unintentional injuries"
         .attr("cy", function (d) {
           return y_scale(d.deaths_count)
         })
-        .attr("r", 5)
+        .attr("r", 5).on("mouseover", function (d) {
+
+
+          tooltip.transition()
+            .duration(200)
+            .style("opacity", .9)
+            .style("border", "1px solid black");
+          tooltip.text(d.deaths_count)
+            .attr('x', 0)
+            .attr('dy', 5)
+            .text(function()
+            {
+              return d.year + ", " + d.deaths_count + " deaths";
+            })
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        }).on("mouseout", function (d) {
+          tooltip.transition()
+            .duration(500)
+            .style("opacity", 0)
+            .style("border", "5px soild black")
+            .style("border-radius", "5px");
+        });
     }
 
 
@@ -627,9 +691,20 @@ cause = "Unintentional injuries"
         .data(state_names)
         .enter()
         .append("circle")
-        .attr("cx", 700)
+        .attr("cx", function(d, i)
+        {
+               if(i == 1)
+               {
+                 return 140;
+               }
+               else 
+               {
+                 return 50;
+               }
+        })
         .attr("cy", function (d, i) {
-          return -20 + i * 30
+          
+          return -5 ;
         }) // 100 is where the first dot appears. 25 is the distance between dots
         .attr("r", 7)
         .style("fill", function (d) {
@@ -644,9 +719,18 @@ cause = "Unintentional injuries"
         .data(state_names)
         .enter()
         .append("text")
-        .attr("x", 720)
+        .attr("x", function(d, i)
+        {
+          if(i == 1)
+          {
+            return 150;
+          }
+          else{
+            return 60;
+          }
+        })
         .attr("y", function (d, i) {
-          return -20 + i * 30
+          return 1;
         }) // 100 is where the first dot appears. 25 is the distance between dots
         .style("fill", function (d) {
 
@@ -659,6 +743,9 @@ cause = "Unintentional injuries"
         .attr("text-anchor", "right")
         .style("alignment-baseline", "middle")
     }
+
+
+    
 
   }
 
@@ -688,7 +775,7 @@ cause = "Unintentional injuries"
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top/2 + ")");
 
     var x = d3.scaleBand()
       .range([0, width])
@@ -710,14 +797,15 @@ cause = "Unintentional injuries"
 
     //add labels
     svg.append("text").attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
-      .attr("transform", "translate(" + (10 / 8) + (height / 100) + ")rotate(-90)") // text is drawn off the screen top left, move down and out and rotate
-      .text("Value");
+      .attr("transform", "translate(" + -60 +  ")rotate(-90)") // text is drawn off the screen top left, move down and out and rotate
+      .text("Deaths").attr("dy", "0.2em").attr("x", 0 - height/2);
+
 
 
 
     svg.append("text")
       .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
-      .attr("transform", "translate(" + (width / 56) + "," + (height + (120 / 3)) + ")") // centre below axis
+      .attr("transform", "translate(" + (width / 2) + "," + (height + (120 / 3)) + ")").attr("dy", "0.2em") // centre below axis
       .text("Year");
     //var max_year = d3.max(years)
 
@@ -827,16 +915,27 @@ cause = "Unintentional injuries"
       //this.bindDataInitialized(result, 2017);
       var data = this.calculateCausesPerState(result, "Alabama", "Unintentional injuries", 18);
       var data_test = this.calculateCausesPerState(result, "Alabama", "Unintentional injuries", 18)
-      this._setProperty("state", "California");
-      this._setProperty("cause", "Stroke");
+      this._setProperty("state", "Alabama");
+      this._setProperty("cause", "Unintentional injuries");
 
       var fixed_data = helper.parseYearsWithDeathCount(data);
       var test_fied_data = helper.parseYearsWithDeathCount(data_test);
+      
       this.drawChart(fixed_data);
-      //this.drawLineCharts("California", "Texas", "Stroke");
+      
+    
+
+ //set title of second chart 
+          this.shadowRoot.querySelector("#chart2-title").innerText = "Number of deaths caused by Unintentional Injuries in Alabama (1999-2017)"
       this.drawLineChart(fixed_data, test_fied_data, "Alabama", "Alabama");
+
+     
+
+
       this._setProperty("causes", helper.parseCauses(result));
       this._setProperty("states", helper.getStatesOnly());
+
+       this.shadowRoot.querySelector("#chart1-title").innerText = "Number of deaths caused by Unintentional Injuries in Alabama (1999-2017)"
 
 
 
@@ -848,4 +947,4 @@ cause = "Unintentional injuries"
   }
 }
 
-window.customElements.define('my-view2', MyView2);
+window.customElements.define('state-tools', StateTools);

@@ -62,11 +62,10 @@ class Tools
          return year_object;
      }
 
-
     getColorObject()
     {
-var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(179, 7, 7)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)"];
-var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease", "Diabetes", "Influenza and pneumonia", "Suicide", "Kidney disease", "CLRD", "Stroke"];
+var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(179, 7, 7)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)", "rgb(188, 210, 245)" ];
+var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease", "Diabetes", "Influenza and pneumonia", "Suicide", "Kidney disease", "CLRD", "Stroke", "All causes"];
 
 
 

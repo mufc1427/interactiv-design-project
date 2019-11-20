@@ -1,12 +1,4 @@
-/**
- * @license
- * Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
+
 
 import {
   PolymerElement,
@@ -16,14 +8,10 @@ import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-spinner/paper-spinner';
+import '@polymer/paper-checkbox/paper-checkbox.js';
 
 
 
-//import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-//import '@polymer/paper-item/paper-item.js';
-//import '@polymer/paper-listbox/paper-listbox.js';
-
-//import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 
 
 
@@ -32,7 +20,7 @@ import './shared-styles.js';
 
 //import * as d3 from 'd3' //d3 library
 
-class MyView1 extends PolymerElement {
+class MapUs extends PolymerElement {
 
 
   STATES() {
@@ -136,18 +124,38 @@ class MyView1 extends PolymerElement {
       
       </style>
 
-      <h2>
+      <h1 class="text-center">
       Data vizualization tool for csc196v at Sac State
-      </h2>
+      </h1>
       <hr>
 
-      <section id="main-paragragh">
+      <section>
       <p>
-      This tool demaotrates the number of years of life lost per disease per country per year.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderi
+
+      The tools in this app demonstrate the number of deaths by a cause on a year from 1999 to 2017. The dataset from where data is draw can be found here 
+       You can either used the map to compared the number of deaths or you can use more specific tools in the by states section of the application.
       </p></section>
 
-      <div class="card" id="map-holder">
+      <div class="card main-paragragh" id="map-holder">
+
+
+      <h2>Number one cause of death in the US and number of deaths per cause (1999-2017)  </h2>
+
+<hr>
+
+        <section>
+        <P>
+        This tool demonstrate number one cause of death in every state in the US, and number of deaths per cause in each state during the period 1999-2017.
+
+        <br>
+        <strong>How to use:</strong>To display the number one cause death per state, just select a year a leave the select a cause dropdown 
+        menu as none selected. If you want to see the number of deaths by a specific cause, then select a cause from the dropdown menu.
+       <br>
+   
+       
+        </P>
+
+        </section>
         <section id = "report-tipe-container">
              
 <paper-dropdown-menu label = "Year" id="select-year-menu" on-iron-activate="_selectYear" vertical-offset="60">
@@ -161,13 +169,14 @@ class MyView1 extends PolymerElement {
  
   </paper-listbox> </paper-dropdown-menu>
 
-
-
+&nbsp;
+&nbsp;
 
 
   <paper-dropdown-menu label = "Select a cause" id="select-cause-menu" on-iron-activate="_selectCause" vertical-offset="60">
   <paper-listbox slot = "dropdown-content" selected = "0">
 
+  <paper-item class="year" selected>None selected</paper-item>
   <template is="dom-repeat" items = [[causes]] as="cause">
 
   <paper-item class="year">[[cause]]</paper-item> 
@@ -175,6 +184,8 @@ class MyView1 extends PolymerElement {
   </template>
  
   </paper-listbox> </paper-dropdown-menu>
+
+  
   
           </section>
         <h3 id="map-title" >Leading cause of death per state in the United States (2000-2017) </h3>
@@ -275,13 +286,13 @@ _selectCause(event)
     var cause = this._getProperty("cause_selected");
     var data = this._getProperty("parsed_data");//remove svg if already exist
     
-    if(year != null && (cause != "default" && cause != undefined)  )
+    if(year != null && (cause != "None selected" && cause != undefined)  )
     {
 
       map_title.innerText ="Number of death per state caused by " + cause + " in " + year;
       this.drawMap(this.calculateDeathsByCause(data, cause, year));
     }
-    else if (year != null && (cause == "default" || cause == undefined))
+    else if (year != null && (cause == "None selected" || cause == undefined))
     {
       map_title.innerText = "Leading cause of death per state in the United States in " + year;
       this.drawMap(this.calculateDeathsByYear(data, year));
@@ -483,8 +494,8 @@ calculateDeathsByCause(data, cause, year)
 
 
 
-    var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(179, 7, 7)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)"];
-    var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease", "Diabetes", "Influenza and pneumonia", "Suicide", "Kidney disease", "CLRD", "Stroke"];
+    var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(179, 7, 7)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)",  "rgb(188, 210, 245)"];
+    var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease", "Diabetes", "Influenza and pneumonia", "Suicide", "Kidney disease", "CLRD", "Stroke", "All causes"];
 
 
 
@@ -573,17 +584,16 @@ calculateDeathsByCause(data, cause, year)
         })
 
 
-      .on("click", function (d) {
+      .on("mouseover", function (d) {
 
 
         div.transition()
           .duration(200)
           .style("opacity", .9)
-          .style("border","1px solid black");
-        div.text(d.properties.NAME)
-           .attr('x', 0)
-           .attr('dy', 5)
-           .text(d.cause)
+          .style("border","1px solid black")
+           .text(function(){
+             return d.properties.NAME  + ", " +  d.cause + ": " + d.deaths + " deaths";
+           })
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
       }).on("mouseout", function (d) {
@@ -666,6 +676,7 @@ calculateDeathsByCause(data, cause, year)
 
 
       this._setProperty("parsed_data", result);
+      this._setProperty("year_selected", 2017)
       this.bindDataInitialized(result, 2017);
       this.insertYears(result);
       this.insertCauses(result);
@@ -696,4 +707,4 @@ calculateDeathsByCause(data, cause, year)
 }
 
 
-window.customElements.define('my-view1', MyView1);
+window.customElements.define('map-page', MapUs);

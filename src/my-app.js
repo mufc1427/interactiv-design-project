@@ -46,7 +46,18 @@ class MyApp extends PolymerElement {
 
         .nav-link
         {
-             color:white;
+             color:white important!;
+        }
+
+        .nav-link:hover
+        {
+            opacity:1;
+        }
+
+
+        .drawer-list a
+        {
+          color:white;
         }
 
     .center-spinner
@@ -56,6 +67,24 @@ class MyApp extends PolymerElement {
         left:50%;
         margin-top:300px;
       }
+
+      .nav-link
+      {
+        color:wheat;
+        
+      }
+
+      .link-space
+      {
+        margin-right:20px;
+      }
+
+      #last-link
+      {
+        margin-right:100px;
+      }
+
+
 
         app-drawer-layout:not([narrow]) [drawer-toggle] {
           display: block;
@@ -122,28 +151,31 @@ class MyApp extends PolymerElement {
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
-              <paper-icon-button icon="my-icons:menu" drawer-toggle="" on-click="_toggleMenu"></paper-icon-button>
+              <!--<paper-icon-button icon="my-icons:menu" drawer-toggle="" on-click="_toggleMenu"></paper-icon-button>-->
               <div main-title="">Isaac's Vizualization Tools</div>
 
+
+
+             
+          
+          
+            <a class="nav-link link-space" name="map" href="[[rootPath]]map">National</a>
+            <hr>
+            <a  class="nav-link link-space"name="state" href="[[rootPath]]state">By State</a>
+            <hr>
+            <a id="last-link" class="nav-link" name="about-page" href="[[rootPath]]about">About</a>
+        
+          
+          
             </app-toolbar>
           </app-header>
 
-          <nav id="nav-bar-custom">
           
-           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="view1" href="[[rootPath]]view1">National</a>
-            <hr>
-            <a name="view2" href="[[rootPath]]view2">By State</a>
-            <hr>
-            <a name="view3" href="[[rootPath]]view3">About</a>
-          </iron-selector>
-          
-          </nav>
 
           <iron-pages class"custom-bg" selected="[[page]]" attr-for-selected="name" role="main">
-            <my-view1 name="view1"></my-view1>
-            <my-view2 name="view2"></my-view2>
-            <my-view3 name="view3"></my-view3>
+            <map-page name="map"></map-page>
+            <state-tools name="state"></state-tools>
+            <about-page name="about"></about-page>
             <my-view404 name="view404"></my-view404>
           </iron-pages>
         </app-header-layout>
@@ -191,8 +223,8 @@ class MyApp extends PolymerElement {
     // If no page was found in the route data, page will be an empty string.
     // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
-      this.page = 'view1';
-    } else if (['view1', 'view2', 'view3'].indexOf(page) !== -1) {
+      this.page = 'map';
+    } else if (['map', 'state', 'about'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
@@ -210,14 +242,14 @@ class MyApp extends PolymerElement {
     // Note: `polymer build` doesn't like string concatenation in the import
     // statement, so break it up.
     switch (page) {
-      case 'view1':
-        import('./my-view1.js');
+      case 'map':
+        import('./map-page.js');
         break;
-      case 'view2':
-        import('./my-view2.js');
+      case 'state':
+        import('./state-page.js');
         break;
-      case 'view3':
-        import('./my-view3.js');
+      case 'about':
+        import('./about-page.js');
         break;
       case 'view404':
         import('./my-view404.js');
