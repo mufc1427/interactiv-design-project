@@ -107,6 +107,15 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         line-height: 64px;
       }
 
+      .container
+      {
+        margin-right:auto;
+        margin-left:auto;
+        max-width:1200px;
+
+    
+      }
+
       h1 {
         margin: 16px 0;
         color: #212121;
