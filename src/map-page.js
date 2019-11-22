@@ -105,12 +105,7 @@ class MapUs extends PolymerElement {
       }
 
       
-     
-
-      #map-holder
-      {
-        width:1000px;
-      }
+    
 
       #map-title
       {
@@ -136,7 +131,7 @@ class MapUs extends PolymerElement {
        You can either used the map to compared the number of deaths or you can use more specific tools in the by states section of the application.
       </p></section>
 
-      <div class="card main-paragragh" id="map-holder">
+      <div class="card main-paragragh container" id="map-holder">
 
 
       <h2>Number one cause of death in the US and number of deaths per cause (1999-2017)  </h2>

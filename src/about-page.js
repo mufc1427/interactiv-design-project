@@ -16,7 +16,7 @@ class About extends PolymerElement {
       <h1 class="text-center">Design Decisions</h1>
         <hr>
       </section>
-      <div class="card">
+      <div class="card container">
         
         
         <section class="main-paragragh">
