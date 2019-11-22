@@ -22,7 +22,7 @@ class StateTools extends PolymerElement {
 
         .line {
           fill: none;
-          stroke: #ffab00;
+          stroke: #d19041;
           stroke-width: 3;
         }
 
@@ -77,7 +77,7 @@ class StateTools extends PolymerElement {
           
       </style>
 
-      <div class="card main-paragragh">
+      <div class="card main-paragragh container">
         <h2>Number of deaths by caused on a state (1999-2017) </h2>
         <hr>
 
@@ -567,26 +567,7 @@ cause = "Unintentional injuries"
 
 
 
-    /*.on("click", function (d) {
-
-
-        tooltip.transition()
-          .duration(200)
-          .style("opacity", .9)
-          .style("border", "1px solid black");
-        tooltip.text(d.deaths_count)
-          .attr('x', 0)
-          .attr('dy', 5)
-          .text(d.cause)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-      }).on("mouseout", function (d) {
-        tooltip.transition()
-          .duration(500)
-          .style("opacity", 0)
-          .style("border", "5px soild black")
-          .style("border-radius", "5px");
-      }); // 11. Calls the line generator */
+    
 
 
     svg.selectAll(".dot")
