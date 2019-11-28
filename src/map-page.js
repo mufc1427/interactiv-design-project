@@ -119,6 +119,7 @@ class MapUs extends PolymerElement {
       
       </style>
 
+      <div class="container">
       <h1 class="text-center">
       Data vizualization tool for csc196v at Sac State
       </h1>
@@ -127,9 +128,10 @@ class MapUs extends PolymerElement {
       <section>
       <p>
 
-      The tools in this app demonstrate the number of deaths by a cause on a year from 1999 to 2017. The dataset from where data is draw can be found here 
-       You can either used the map to compared the number of deaths or you can use more specific tools in the by states section of the application.
+      The tools in this app demonstrate the number of deaths by a cause on a year from 1999 to 2017. The dataset from where data is drawn can be found <a href="https://healthdata.gov/dataset/nchs-leading-causes-death-united-states/resource/654dda0f-bbd9-4bb3-8f4c-8c68eca8ccec#{view-graph:{group:!State,series:[!Deaths],graphOptions:{hooks:{processOffset:{},bindEvents:{}}}},currentView:!graph,graphOptions:{hooks:{processOffset:{},bindEvents:{}}}}" target="_blank">here</a>. You can either used the map to compared the number of deaths or you can use more specific tools in the by states section of the application.
       </p></section>
+
+      </div>
 
       <div class="card main-paragragh container" id="map-holder">
 
