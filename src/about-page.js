@@ -12,10 +12,12 @@ class About extends PolymerElement {
       </style>
 
 
+      <div class="container">
       <section>
       <h1 class="text-center">Design Decisions</h1>
         <hr>
       </section>
+      </div>
       <div class="card container">
         
         
