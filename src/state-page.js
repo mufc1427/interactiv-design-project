@@ -78,7 +78,7 @@ class StateTools extends PolymerElement {
       </style>
 
       <div class="card main-paragragh container">
-        <h2>Number of deaths by caused on a state (1999-2017) </h2>
+        <h2>Number of deaths by cause on a state (1999-2017) </h2>
         <hr>
 
         <section class="main-paragraph">
@@ -452,11 +452,15 @@ cause = "Unintentional injuries"
         bottom: 30,
         left: 100
       },
-      width = 950 - margin.left - margin.right,
+      width = 1000 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
+
+      //draw resposnive svg
     var svg = d3.select(this.shadowRoot.querySelector("#main-chart-2")).append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+     .attr("viewBox", function () {
+         return "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.left + margin.right);
+       })
+       .attr("preserveAspectRatio", "xMidYMid meet")
       .attr("id", "lines-chart")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top/2 + ")");
@@ -745,7 +749,7 @@ cause = "Unintentional injuries"
         bottom: 30,
         left: 100
       },
-      width = 950 - margin.left - margin.right,
+      width = 1000 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
     var greyColor = "#898989";
@@ -753,8 +757,11 @@ cause = "Unintentional injuries"
     var highlightColor = d3.interpolateInferno(0.3);
 
     var svg = d3.select(this.shadowRoot.querySelector("#main-chart-1")).append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr("viewBox", function()
+      {
+           return "0 0 " + (width + margin.left + margin.right) +" " + (height + margin.left + margin.right); 
+      })
+      .attr("preserveAspectRatio", "xMidYMid meet")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top/2 + ")");
 
@@ -788,7 +795,7 @@ cause = "Unintentional injuries"
       .attr("text-anchor", "middle") // this makes it easy to centre the text as the transform is applied to the anchor
       .attr("transform", "translate(" + (width / 2) + "," + (height + (120 / 3)) + ")").attr("dy", "0.2em") // centre below axis
       .text("Year");
-    //var max_year = d3.max(years)
+    
 
     x.domain(dataset.map(d => {
       return d.year;
