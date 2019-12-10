@@ -7,6 +7,7 @@ import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-button/paper-button.js';
+//import * as d3 from "d3";
 //import '../tools.js/index.js'
 
 class StateTools extends PolymerElement {
@@ -77,13 +78,14 @@ class StateTools extends PolymerElement {
           
       </style>
 
-      <div class="card main-paragragh container">
+      <div class="main-paragragh2">
         <h2>Number of deaths by cause on a state (1999-2017) </h2>
         <hr>
 
         <section class="main-paragraph">
         <P>
-        This tool demostrate the number of deaths caused by a specific caused in a state from the period 1999-2017
+        This visualization demostrate the number of deaths caused by a specific cause on a state from the period 1999-2017. This tool is useful to undertand an specific trend for a cause. For example, we can tell if the
+        number of deaths for a cause in a state is decreasing, increasing, or stable very easily. This type of information can be useful to predict future patterns. 
 
         <br>
         <strong>How to use:</strong> To use just select a cause and a state from the dropdown menu and click the show button</strong>
@@ -104,7 +106,7 @@ class StateTools extends PolymerElement {
 &nbsp;
 &nbsp;
 &nbsp;
-     <paper-dropdown-menu label = "Select a state" id="select-cause-menu" on-iron-activate="_selectState" vertical-offset="60">
+     <paper-dropdown-menu label = "Select a state" id="select-cause-menu" on-iron-activate="_selectState" vertical-offset="60" role="combobox" aria-autocomplete="none" aria-haspopup="true" aria-disabled="false">
   <paper-listbox slot = "dropdown-content" selected = "0">
 
   <template is="dom-repeat" items = [[states]] as="state">
@@ -129,7 +131,13 @@ class StateTools extends PolymerElement {
 
         <section>
         <P>
-        This tool demostrate the number of deaths in two states by a specific cause from the period 1999-2017
+        This visualization demonstrates the number of deaths in two states by a specific cause from the period 1999-2017. With this tool we can compared the trend of a cause in two
+        different states. This give us an idea,
+          for example on the difference of total number of deaths in two states
+        for a specific cause. As an example, by using this tool we can tell that
+        California has by far the most deaths
+        for every single cause. Although the map can also provide this information, this visualization really put in perpective the difference between two
+        states, something that a map can't do. 
 
         <br>
         <strong>How to use:</strong> To use just select two different state from the dropdown menus and then select a cause, and  click the show button. The x-axis represent the year, and the y-axis the 
@@ -142,7 +150,7 @@ class StateTools extends PolymerElement {
         </section>
 
 
-<paper-dropdown-menu label = "Select the first state" id="select-first-state-menu" on-iron-activate="_selectFirstState" vertical-offset="60">
+<paper-dropdown-menu label = "Select the first state" id="select-first-state-menu" on-iron-activate="_selectFirstState" vertical-offset="60" role="combobox" aria-autocomplete="none" aria-haspopup="true" aria-disabled="false">
   <paper-listbox slot = "dropdown-content" selected = "0">
 
   <template is="dom-repeat" items = [[states]] as="state">
@@ -156,7 +164,7 @@ class StateTools extends PolymerElement {
 &nbsp;
 &nbsp;
 &nbsp;
-     <paper-dropdown-menu label = "Select the second state" id="select-second-state-menu" on-iron-activate="_selectSecondState" vertical-offset="60">
+     <paper-dropdown-menu label = "Select the second state" id="select-second-state-menu" on-iron-activate="_selectSecondState" vertical-offset="60" role="combobox" aria-autocomplete="none" aria-haspopup="true" aria-disabled="false">
   <paper-listbox slot = "dropdown-content" selected = "0">
 
   <template is="dom-repeat" items = [[states]] as="state">
@@ -171,7 +179,14 @@ class StateTools extends PolymerElement {
 &nbsp;
 &nbsp;
 
-<paper-dropdown-menu label = "Select the second state" id="select-second-state-menu" on-iron-activate="_selectCauseComparison" vertical-offset="60">
+< paper - dropdown - menu label = "Select the second state"
+id = "select-second-state-menu"
+on - iron - activate = "_selectCauseComparison"
+vertical - offset = "60"
+role = "combobox"
+aria - autocomplete = "none"
+aria - haspopup = "true"
+aria - disabled = "false" >
 <paper-listbox slot = "dropdown-content" selected = "0">
 
   <template is="dom-repeat" items = [[causes]] as="cause">
@@ -190,6 +205,10 @@ class StateTools extends PolymerElement {
       
 
           <div id="main-chart-2"></div>
+
+
+
+             
     `;
   }
 
@@ -594,7 +613,9 @@ cause = "Unintentional injuries"
         tooltip.text(d.deaths_count)
           .attr('x', 0)
           .attr('dy', 5)
-          .text(d.deaths_count + " deaths")
+          .text(function () {
+            return d.deaths_count;
+          })
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
       }).on("mouseout", function (d) {
@@ -628,7 +649,7 @@ cause = "Unintentional injuries"
             .attr('dy', 5)
             .text(function()
             {
-              return d.year + ", " + d.deaths_count + " deaths";
+              return d.deaths_count;
             })
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY - 28) + "px");
@@ -659,7 +680,7 @@ cause = "Unintentional injuries"
       .transition()
       .duration(750)
       .delay(function () {
-        return 4000;
+        return 1000;
       })
 
 

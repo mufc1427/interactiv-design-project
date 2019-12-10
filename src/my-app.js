@@ -44,6 +44,20 @@ class MyApp extends PolymerElement {
           display: block;
         }
 
+
+
+          @media screen and(max - width: 575 px) {
+            .no-show
+            {
+              display:none;
+            }
+
+            .show-el
+            {
+              display:block;
+            }
+          }
+
         .nav-link
         {
              color:white important!;
@@ -103,6 +117,11 @@ class MyApp extends PolymerElement {
           margin: 0 20px;
         }
 
+        .show-el
+        {
+          display:none;
+        }
+
         #nav-bar-custom
         {
           display:none;
@@ -151,19 +170,29 @@ class MyApp extends PolymerElement {
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
-              <!--<paper-icon-button icon="my-icons:menu" drawer-toggle="" on-click="_toggleMenu"></paper-icon-button>-->
+              <!--<paper-icon-button class="show-el" icon="my-icons:menu" drawer-toggle="" on-click="_toggleMenu"></paper-icon-button>-->
               <div main-title="">Isaac's Vizualization Tools</div>
 
 
 
+
+
+              <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list show-el" role="navigation">
+             <a class="nav-link link-space no-show" name="map" href="[[rootPath]]map">Home</a>
+            <hr>
+            <!--<a  class="nav-link link-space no-show" name="state" href="[[rootPath]]state">By State</a>-->
+            <hr>
+            <a id="last-link" class="nav-link no-show" name="about-page" href="[[rootPath]]about">About</a>
+        
+          </iron-selector>
              
           
           
-            <a class="nav-link link-space" name="map" href="[[rootPath]]map">National</a>
+            <a class="nav-link link-space no-show" name="map" href="[[rootPath]]map">Home</a>
             <hr>
-            <a  class="nav-link link-space"name="state" href="[[rootPath]]state">By State</a>
+            <!--<a  class="nav-link link-space no-show" name="state" href="[[rootPath]]state">By State</a>-->
             <hr>
-            <a id="last-link" class="nav-link" name="about-page" href="[[rootPath]]about">About</a>
+            <a id="last-link" class="nav-link no-show" name="about-page" href="[[rootPath]]about">About</a>
         
           
           
@@ -174,7 +203,7 @@ class MyApp extends PolymerElement {
 
           <iron-pages class"custom-bg" selected="[[page]]" attr-for-selected="name" role="main">
             <map-page name="map"></map-page>
-            <state-tools name="state"></state-tools>
+           <!-- <state-tools name="state"></state-tools> -->
             <about-page name="about"></about-page>
             <my-view404 name="view404"></my-view404>
           </iron-pages>
@@ -245,9 +274,9 @@ class MyApp extends PolymerElement {
       case 'map':
         import('./map-page.js');
         break;
-      case 'state':
+      /*case 'state':
         import('./state-page.js');
-        break;
+        break;*/
       case 'about':
         import('./about-page.js');
         break;

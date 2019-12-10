@@ -1,0 +1,8 @@
+class Calculations
+{
+     calculateTotalDeathsByYear()
+     {
+         
+     }
+
+}

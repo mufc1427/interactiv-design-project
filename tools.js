@@ -1,3 +1,6 @@
+//import * as d3 from "d3";
+
+
 class Tools
 {
 
@@ -8,6 +11,11 @@ class Tools
 
         return US_STATES;
     }
+
+
+   
+
+
 
     getStatesOnly()
     {
@@ -44,6 +52,9 @@ class Tools
      }
 
 
+
+
+
      constructYearObject(years)
      {
          var year_object = {};
@@ -62,10 +73,30 @@ class Tools
          return year_object;
      }
 
+
+
+     constructCauseObject(data)
+     {
+         var causes = this.parseCauses(data);   
+
+         var causes_object = new Object();
+
+         for(let i = 0; i < causes.length; i++)
+         {
+             causes_object[causes[i]] = { cause:"", deaths_count:0}
+              
+             
+         }
+
+
+         return causes_object;
+          }
+
     getColorObject()
-    {
-var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(179, 7, 7)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)", "rgb(188, 210, 245)" ];
-var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease", "Diabetes", "Influenza and pneumonia", "Suicide", "Kidney disease", "CLRD", "Stroke", "All causes"];
+{
+ var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(107, 156, 120)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)", "rgb(188, 210, 245)"];
+ var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease", "Diabetes", "Influenza and pneumonia", "Suicide", "Kidney disease", "CLRD", "Stroke", "All causes"];
+
 
 
 
@@ -90,6 +121,23 @@ return color_object;
             return  return_holder;
 
             
+     }
+
+
+     parseProperties(data)
+     {
+          var result_holder = Array();
+
+          for(let key in data)
+          {
+              if(key !="All causes")
+              {
+              result_holder.push(data[key])
+              }
+              
+          }
+
+          return result_holder;
      }
 
      parseYearsWithDeathCount(data)
@@ -232,7 +280,7 @@ return color_object;
                      previous_key = data[i].year;
 
                      
-                     result_holder.push("years", data[i].year);
+                     result_holder.push(data[i].year);
 
                  }
 
@@ -249,6 +297,9 @@ return color_object;
 
 
          }
+
+
+         
 
 
     

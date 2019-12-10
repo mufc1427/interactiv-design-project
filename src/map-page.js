@@ -9,6 +9,9 @@ import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
 import '@polymer/paper-spinner/paper-spinner';
 import '@polymer/paper-checkbox/paper-checkbox.js';
+//import * as d3 from "d3";
+import('./state-page.js');
+import('./total-deaths.js');
 
 
 
@@ -128,7 +131,34 @@ class MapUs extends PolymerElement {
       <section>
       <p>
 
-      The tools in this app demonstrate the number of deaths by a cause on a year from 1999 to 2017. The dataset from where data is drawn can be found <a href="https://healthdata.gov/dataset/nchs-leading-causes-death-united-states/resource/654dda0f-bbd9-4bb3-8f4c-8c68eca8ccec#{view-graph:{group:!State,series:[!Deaths],graphOptions:{hooks:{processOffset:{},bindEvents:{}}}},currentView:!graph,graphOptions:{hooks:{processOffset:{},bindEvents:{}}}}" target="_blank">here</a>. You can either used the map to compared the number of deaths or you can use more specific tools in the by states section of the application.
+      The visualizations in this app visualized different aspects regarding the top 10 causes of death in the U.S from 1999 to 2017. 
+      The top 10 causes of death in the United States are:</p>
+
+      <ul>
+      <li>Heart disease</li>
+       <li>Cancer</li>
+      <li> Kidney Disease</li>
+       <li>Chronic Lower Respiratory Disease (CLRD)</li>
+        <li>Stroke</li>
+         <li>Suicide</li>
+          <li>Unintentional Injuries</li>
+           <li>Diabetes</li>
+            <li>Alzheimer Disease </li>
+            <li>Influenza and pneumonia</li>
+      </ul>
+      <p>
+      For this dataset I wanted it to investigate different aspects of the dataset such as:</p>
+
+      <ol>
+      <li>What's the most common cause of death in the United States from 1999-2017?</li>
+       <li>How does the number of deaths by a cause differ year by year in a state and nationally? </li>
+      <li>How does the number of deaths on different states compared against each other for an specific cause?  </li>
+       <li>What's the total number of deaths by cause year by year?</li>
+      </ol>
+      
+      
+
+      <p>The dataset from where data is drawn can be found <a href="https://healthdata.gov/dataset/nchs-leading-causes-death-united-states/resource/654dda0f-bbd9-4bb3-8f4c-8c68eca8ccec#{view-graph:{group:!State,series:[!Deaths],graphOptions:{hooks:{processOffset:{},bindEvents:{}}}},currentView:!graph,graphOptions:{hooks:{processOffset:{},bindEvents:{}}}}" target="_blank">here</a>.
       </p></section>
 
       </div>
@@ -142,8 +172,10 @@ class MapUs extends PolymerElement {
 
         <section>
         <P>
-        This tool demonstrate number one cause of death in every state in the US, and number of deaths per cause in each state during the period 1999-2017.
-
+        This tool visualizes the number one cause of death in every state in the US, and number of deaths per cause in each state during the period 1999-2017.
+        By using this map is easy to see the most common causes of death on each state each year, and by exploring the dataset year by year is accurate to say that
+        the most common cause of death is Heart disease, follow closedly by Cancer. Adding to this, is also possible to explore how each sates compared against each other for 
+        an specific cause.  
         <br>
         <strong>How to use:</strong>To display the number one cause death per state, just select a year a leave the select a cause dropdown 
         menu as none selected. If you want to see the number of deaths by a specific cause, then select a cause from the dropdown menu.
@@ -155,7 +187,7 @@ class MapUs extends PolymerElement {
         </section>
         <section id = "report-tipe-container">
              
-<paper-dropdown-menu label = "Year" id="select-year-menu" on-iron-activate="_selectYear" vertical-offset="60">
+<paper-dropdown-menu label = "Year" id="select-year-menu" on-iron-activate="_selectYear" vertical-offset="60" role="combobox" aria-autocomplete="none" aria-haspopup="true" aria-disabled="false">
   <paper-listbox slot = "dropdown-content" selected = "0">
 
   <template is="dom-repeat" items = [[years]] as="year">
@@ -170,7 +202,7 @@ class MapUs extends PolymerElement {
 &nbsp;
 
 
-  <paper-dropdown-menu label = "Select a cause" id="select-cause-menu" on-iron-activate="_selectCause" vertical-offset="60">
+  <paper-dropdown-menu label = "Select a cause" id="select-cause-menu" on-iron-activate="_selectCause" vertical-offset="60" role="combobox" aria-autocomplete="none" aria-haspopup="true" aria-disabled="false">
   <paper-listbox slot = "dropdown-content" selected = "0">
 
   <paper-item class="year" selected>None selected</paper-item>
@@ -191,10 +223,14 @@ class MapUs extends PolymerElement {
         
       
         
-        <div id="main-map" >
+        <div id="main-map"></div>
        <!--<div id= "spinner-custom">
           <paper-spinner active align = "center"> </paper-spinner> </div>
       </div>-->
+
+      
+         <state-tools name="state"></state-tools>
+         <total-deaths></total-deaths>
     `;
 
   }
@@ -352,7 +388,7 @@ calculateDeathsByCause(data, cause, year)
        }
 
        
-       if ( data[i].Cause_Name != "All causes" && data[i].State != "United States" && data[i].year == year && data[i].Cause_Name == cause ) {
+       if (  data[i].State != "United States" && data[i].year == year && data[i].Cause_Name == cause ) {
          states_object[data[i].State].cause = data[i].Cause_Name;
          states_object[data[i].State].deaths_count = data[i].Deaths;
 
@@ -412,8 +448,7 @@ calculateDeathsByCause(data, cause, year)
       if (previous_key != data[i].year) {
         previous_key = data[i].year;
 
-        console.log(data[i].year);
-
+     
         this.push("years", data[i].year);
 
       }
@@ -491,7 +526,7 @@ calculateDeathsByCause(data, cause, year)
 
 
 
-    var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(179, 7, 7)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)",  "rgb(188, 210, 245)"];
+    var causes_colors = ["rgb(222, 33, 75)", "rgb(49, 191, 235)", "rgb(48, 144, 240)", "rgb(48, 240, 125)", "rgb(242, 147, 107)", "rgb(182, 88, 196)", "rgb(107, 156, 120)", "rgb(118, 126, 181)", "rgb(137, 138, 143)", "rgb(2, 237, 229)", "rgb(188, 210, 245)"];
     var causes_names = ["Heart disease", "Cancer", "Unintentional injuries", "Alzheimer's disease", "Diabetes", "Influenza and pneumonia", "Suicide", "Kidney disease", "CLRD", "Stroke", "All causes"];
 
 

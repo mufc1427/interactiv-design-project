@@ -107,6 +107,13 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         line-height: 64px;
       }
 
+      .center-img
+      {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       .container
       {
         margin-right:auto;
@@ -119,6 +126,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       h1 {
         margin: 16px 0;
         color: #212121;
+      }
+
+      .text-center
+      {
+           text-align: center !important;
+         
       }
     </style>
   </template>
