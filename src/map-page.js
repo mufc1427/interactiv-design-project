@@ -4,9 +4,9 @@ import {
   PolymerElement,
   html
 } from '@polymer/polymer/polymer-element.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-listbox/paper-listbox.js';
+import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
 import '@polymer/paper-spinner/paper-spinner';
 import '@polymer/paper-checkbox/paper-checkbox.js';
 //import * as d3 from "d3";
@@ -44,6 +44,21 @@ class MapUs extends PolymerElement {
           padding: 10px;
         }
 
+
+
+         @media screen and (max-width: 575 px) {
+
+         #main-map
+         {
+           overflow-x:scroll !important;
+           border: 1px solid #cad8db !important;
+         }
+
+         #map-graphic
+         {
+           width:600px !important;
+         }
+        }
 
 
 
@@ -119,6 +134,8 @@ class MapUs extends PolymerElement {
       {
         text-align: center;
       }
+
+       
       
       </style>
 
@@ -553,15 +570,14 @@ calculateDeathsByCause(data, cause, year)
 
 
 
-    // Define linear scale for output
-    var color = d3.scaleLinear() //["rgb(217,91,67)"]"rgb(222, 33, 175)"
-      .range(["rgb(217,91,67)"]);
-
 
     var svg = d3.select(this.shadowRoot.querySelector("#main-map"))
       .append("svg")
-      .attr("width", width)
-      .attr("height", height);
+      .attr("viewBox", function () {
+          return "0 0 " + width  + " " + height ;
+        })
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("id","map-graphic");
 
 
     var div = d3.select(this.shadowRoot.querySelector("#main-map"))

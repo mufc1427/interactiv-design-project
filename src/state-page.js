@@ -59,21 +59,35 @@ class StateTools extends PolymerElement {
           stroke: steelblue;
         }
 
+        
 
 
-        .axis path,
-        .axis line {
-          fill: none;
-          stroke: var (--
-            var -color - grey);
-          shape - rendering: crispEdges;
-        }
-        .x.axis {
-            font - size: 15 px;
-          }
-          .y.axis {
-            font - size: 12 px;
-          }
+     
+
+          @media screen and (max-width: 575px) {
+ 
+            #main-chart-1
+            {
+              overflow-x:scroll !important;
+              border: 1px solid #cad8db !important;
+            }
+
+            #bar-chart
+            {
+              width:600px;
+            }
+
+            #main-chart-2
+            {
+              overflow-x:scroll !important;
+              border: 1px solid #cad8db !important;
+            }
+
+            #lines-chart
+            {
+              width:600px;
+            }
+}
 
           
       </style>
@@ -179,14 +193,14 @@ class StateTools extends PolymerElement {
 &nbsp;
 &nbsp;
 
-< paper - dropdown - menu label = "Select the second state"
+<paper-dropdown-menu label="Select the second state"
 id = "select-second-state-menu"
-on - iron - activate = "_selectCauseComparison"
-vertical - offset = "60"
-role = "combobox"
-aria - autocomplete = "none"
-aria - haspopup = "true"
-aria - disabled = "false" >
+on-iron-activate = "_selectCauseComparison"
+vertical-offset = "60"
+role="combobox"
+aria-autocomplete = "none"
+aria-haspopup = "true"
+aria-disabled = "false" >
 <paper-listbox slot = "dropdown-content" selected = "0">
 
   <template is="dom-repeat" items = [[causes]] as="cause">
@@ -782,6 +796,7 @@ cause = "Unintentional injuries"
       {
            return "0 0 " + (width + margin.left + margin.right) +" " + (height + margin.left + margin.right); 
       })
+      .attr("id", "bar-chart")
       .attr("preserveAspectRatio", "xMidYMid meet")
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top/2 + ")");

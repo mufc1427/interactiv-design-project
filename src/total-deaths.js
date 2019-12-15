@@ -2,9 +2,9 @@ import {
     PolymerElement,
     html
 } from '@polymer/polymer/polymer-element.js';
+import '@polymer/paper-listbox/paper-listbox.js'
 import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-listbox/paper-listbox.js';
+import '@polymer/paper-item/paper-item.js';;
 import '@polymer/paper-spinner/paper-spinner';
 import '@polymer/paper-checkbox/paper-checkbox.js';
 //import * as d3 from "d3";
@@ -36,8 +36,30 @@ class TotalDeaths extends PolymerElement {
 
 
         path.slice {
-            stroke - width: 2 px;
+            stroke-width: 2 px;
         }
+
+
+        @media screen and (max-width: 575px) {
+ 
+            #pie-chart
+            {
+              overflow-x:scroll !important;
+              border: 1px solid #cad8db !important;
+            }
+
+            #pie-graphic
+            {
+              width:600px;
+            }
+
+            #treemap-viz
+            {
+                width:320px !important;
+            }
+
+          
+}
 
         </style>
 
@@ -63,9 +85,10 @@ class TotalDeaths extends PolymerElement {
  
   </paper-listbox> </paper-dropdown-menu>
 
+   <h3 id="pie-chart-title" class="text-center">Total number of death per cause in 2017</h3>
    <div id="pie-chart">
 
-   <h3 id="pie-chart-title" class="text-center">Total number of death per cause in 2017</h3>
+  
    
    </div>
 
@@ -82,7 +105,7 @@ class TotalDeaths extends PolymerElement {
   is increases. Of course this visualization doesn't give us all the details, since this rise on the number deaths can be cause by only one condition such 
   as heart disease which is clearly the conditiom that has caused the most deaths since 1999. </p>
 
-  <img src="../images/avg-deaths-us.png" class="center-img" width="700px" alt="treemap image demostrating the average number of deaths in the us from 1999 to 2017"> 
+  <img id="treemap-viz" src="../images/avg-deaths-us.png" class="center-img" width="700px" alt="treemap image demostrating the average number of deaths in the us from 1999 to 2017"> 
    </section>
 
 
@@ -286,8 +309,11 @@ arcTween(a) {
 
 
       var svg = d3.select(this.shadowRoot.querySelector("#pie-chart")).append("svg")
-          .attr("width", width)
-          .attr("height", height)
+            .attr("viewBox", function () {
+                    return "0 0 " + width + " " + height;
+                })
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                .attr("id","pie-graphic")
           .append("g")
           .attr("transform", "translate(" + width/1.5 + "," + height/2 + ")");
 
